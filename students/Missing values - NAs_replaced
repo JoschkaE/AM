@@ -1,0 +1,35 @@
+#What to do with missing variables
+#task2: dealing with missing observations 
+
+install.packages("tidyverse")
+library(tidyverse)
+
+data(airquality)
+summary(airquality)
+
+#replacing NA's with mean values
+
+airquality$Ozone[is.na(airquality$Ozone)] <- mean(airquality$Ozone, na.rm = TRUE)
+
+airquality$Solar.R[is.na(airquality$Solar.R)] <- mean(airquality$Solar.R, na.rm = TRUE)
+
+#control 
+  #summary(airquality)  
+  #View(airquality)
+
+#linearmodel
+
+linearmodel_NAsreplacedbymean <- lm(Ozone ~ Solar.R+Wind+Temp, data = airquality) 
+summary(linearmodel_NAsreplacedbymean)
+
+#interpretation
+  #the stronger the wind the lower the Ozone pollution, very high significance
+  #the higher the temperature the higher the Ozone pollution, very high signicficance
+  #the higher the Solar.R the higher the Ozone pollution, high significance
+  #unsure how to interpret multiple R^2, but 0.48 or 0.4696 (adjusted) seems not high
+  
+#scatterplot
+
+plot <- ggplot(airquality, aes(x = Wind, y = Ozone)) +
+  geom_point()
+plot
